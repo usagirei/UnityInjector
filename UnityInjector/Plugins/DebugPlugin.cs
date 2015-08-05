@@ -3,49 +3,69 @@
 // --------------------------------------------------
 
 #region Usings
+
 using System;
-
 using UnityEngine;
-
 using UnityInjector.Attributes;
 
 #endregion
 
 namespace UnityInjector.Plugins
 {
-
     [PluginName("Debug Plugin")]
-    [PluginVersion("1.0.0.0")]
+    [PluginVersion("1.0.0.1")]
     public class DebugPlugin : PluginBase
     {
         #region Properties
+
         private bool Enabled
         {
             get
             {
                 bool enable;
-                bool parsed = bool.TryParse(Preferences["Config"]["Enable"].Value, out enable);
+                var parsed = bool.TryParse(Preferences["Config"]["Enable"].Value, out enable);
 
                 return (!parsed || enable);
             }
         }
+
+        private bool Mirror
+        {
+            get
+            {
+                bool enable;
+                var parsed = bool.TryParse(Preferences["Config"]["Mirror"].Value, out enable);
+
+                return (!parsed || enable);
+            }
+        }
+
         #endregion
 
         #region (De)Constructors
+
         public DebugPlugin()
         {
             Console.WriteLine("Initializing Debug Plugin");
-            if (Preferences.HasSection("Config")
-                && Preferences["Config"].HasKey("Enable")
-                && !string.IsNullOrEmpty(Preferences["Config"]["Enable"].Value))
-                return;
+            if (!Preferences.HasSection("Config") || !Preferences["Config"].HasKey("Enable") ||
+                string.IsNullOrEmpty(Preferences["Config"]["Enable"].Value))
+            {
+                Preferences["Config"]["Enable"].Value = bool.TrueString;
+                SaveConfig();
+            }
 
-            Preferences["Config"]["Enable"].Value = bool.TrueString;
-            SaveConfig();
+            if (!Preferences.HasSection("Config") || !Preferences["Config"].HasKey("Mirror") ||
+                string.IsNullOrEmpty(Preferences["Config"]["Mirror"].Value))
+            {
+                Preferences["Config"]["Mirror"].Value = bool.FalseString;
+                SaveConfig();
+            }
         }
+
         #endregion
 
         #region Public Methods
+
         public void Awake()
         {
             if (!Enabled)
@@ -53,20 +73,24 @@ namespace UnityInjector.Plugins
             try
             {
                 ConsoleWindow.Attach();
-                var mirr = new ConsoleMirror("debug.log");
+                if (Mirror)
+                {
+                    var mirr = new ConsoleMirror("debug.log");
+                }
 
                 Console.WriteLine("Callback Hooked");
                 Application.RegisterLogCallback(HandleLog);
-                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
         }
+
         #endregion
 
         #region Static Methods
+
         private static void HandleLog(string message, string stackTrace, LogType type)
         {
             switch (type)
@@ -84,7 +108,7 @@ namespace UnityInjector.Plugins
             Console.WriteLine(message);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+
         #endregion
     }
-
 }

@@ -68,7 +68,7 @@ namespace UnityInjector
         #region Static Methods
         private static IEnumerable<Type> LoadPlugins()
         {
-            var exeName = (Process.GetCurrentProcess().ProcessName);
+            var exeName = (Process.GetCurrentProcess().ProcessName); 
 
             if (!Directory.Exists(Extensions.PluginsPath))
             {
@@ -98,8 +98,10 @@ namespace UnityInjector
                         var attribs = t.GetCustomAttributes(false);
 
                         var filter = attribs.OfType<PluginFilterAttribute>().Select(a => a.ExeName).ToList();
-                        var name = attribs.OfType<PluginNameAttribute>().FirstOrDefault()?.Name ?? t.Name;
-                        var ver = attribs.OfType<PluginVersionAttribute>().FirstOrDefault()?.Version ?? "1.0";
+                        var name = attribs.OfType<PluginNameAttribute>().FirstOrDefault()?.Name ??
+                                   t.Assembly.GetName().Name;
+                        var ver = attribs.OfType<PluginVersionAttribute>().FirstOrDefault()?.Version ??
+                                  t.Assembly.GetName().Version.ToString();
 
                         if (!filter.Any() || filter.Contains(exe, StringComparer.InvariantCultureIgnoreCase))
                             plugins.Add(t);

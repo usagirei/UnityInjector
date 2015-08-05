@@ -6,10 +6,8 @@
 using System;
 using System.IO;
 using System.Linq;
-
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-
 using ReiPatcher;
 using ReiPatcher.Patch;
 
@@ -56,7 +54,12 @@ namespace UnityInjector.Patcher
             var patchAttr = GetPatchedAttributes(@class);
 
             if (patchAttr.Any(attr => attr.Info.Equals(TOKEN)))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Assembly Already Patched");
+                Console.ForegroundColor = ConsoleColor.Gray;
                 return false;
+            }
 
             return true;
         }

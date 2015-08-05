@@ -36,16 +36,16 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\ReiPatcher\Build\Development\Mono.Cecil.dll</HintPath>
+      <HintPath>..\..\..\ReiPatcher\Releases\0.9.0.4\ReiPatcher_0.9.0.4\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ReiPatcher, Version=0.9.0.2, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ReiPatcher\Build\Development\ReiPatcher.exe</HintPath>
+      <HintPath>..\..\..\ReiPatcher\Releases\0.9.0.4\ReiPatcher_0.9.0.4\ReiPatcher.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
