@@ -19,7 +19,7 @@ if not exist "%MSBUILD%\msbuild.exe" (
 echo ---------- Cleaning Solution
 del Build\* /q /s
 echo ---------- Building Solution
-msbuild.exe UnityInjector\.build /p:Platform=x86
-msbuild.exe UnityInjector_Patcher\.build /p:Platform=x86
+msbuild.exe UnityInjector\.build
+msbuild.exe UnityInjector_Patcher\.build
 :end
 pause
