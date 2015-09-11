@@ -2,7 +2,6 @@
 // UnityInjector - PluginManager.cs
 // --------------------------------------------------
 
-#region Usings
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,18 +14,12 @@ using UnityEngine;
 using UnityInjector.Attributes;
 using UnityInjector.Plugins;
 
-#endregion
-
 namespace UnityInjector
 {
-
     internal static class PluginManager
     {
-        #region Static Properties
         public static bool IsInitialized { get; private set; }
-        #endregion
 
-        #region Public Static Methods
         public static void Init()
         {
             if (IsInitialized)
@@ -35,7 +28,7 @@ namespace UnityInjector
             IsInitialized = true;
 
             var managerObject = new GameObject(nameof(UnityInjector));
-            
+
             managerObject.AddComponent<DebugPlugin>();
 
             var plugins = new List<Type>();
@@ -63,12 +56,10 @@ namespace UnityInjector
             Console.WriteLine("Plugin Manager End");
             managerObject.SetActive(true);
         }
-        #endregion
 
-        #region Static Methods
         private static IEnumerable<Type> LoadPlugins()
         {
-            var exeName = (Process.GetCurrentProcess().ProcessName); 
+            var exeName = (Process.GetCurrentProcess().ProcessName);
 
             if (!Directory.Exists(Extensions.PluginsPath))
             {
@@ -90,7 +81,7 @@ namespace UnityInjector
                 Console.WriteLine($"Loading Assembly: '{dll}'");
                 var assembly = Assembly.LoadFile(dll);
 
-                foreach (var t in assembly.GetTypes().Where(t => typeof (PluginBase).IsAssignableFrom(t)))
+                foreach (var t in assembly.GetTypes().Where(t => typeof(PluginBase).IsAssignableFrom(t)))
                 {
                     try
                     {
@@ -110,37 +101,27 @@ namespace UnityInjector
                     }
                     catch (Exception ex)
                     {
+#if COLOR
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine(ex.ToString());
                         Console.ForegroundColor = ConsoleColor.Gray;
+#else
+                        Console.WriteLine(ex.ToString());
+#endif
                     }
                 }
             }
             catch (Exception ex)
             {
+#if COLOR
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.ToString());
                 Console.ForegroundColor = ConsoleColor.Gray;
+#else
+                Console.WriteLine(ex.ToString());
+#endif
             }
             return plugins;
         }
-        #endregion
     }
-
-    internal class TestComponent : MonoBehaviour
-    {
-        #region Methods
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-            Console.WriteLine("TestComponent: Awoken");
-        }
-
-        private void Update()
-        {
-            Console.WriteLine("TestComponent: Update");
-        }
-        #endregion
-    }
-
 }

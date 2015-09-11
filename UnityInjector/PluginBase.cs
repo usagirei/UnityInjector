@@ -3,6 +3,7 @@
 // --------------------------------------------------
 
 #region Usings
+
 using System.IO;
 
 using ExIni;
@@ -13,33 +14,29 @@ using UnityEngine;
 
 namespace UnityInjector
 {
-
     /// <summary>
     ///     Abstract Class for generic unity plugins
     /// </summary>
     public abstract partial class PluginBase : MonoBehaviour
     {
-        #region Fields
         private IniFile _prefs;
-        #endregion
+        internal string ConfigPath => Extensions.CombinePaths(DataPath, Name.Asciify() + ".ini");
 
-        #region Properties
         /// <summary>
         ///     Plugins Data Path
         /// </summary>
         public string DataPath => Extensions.UserDataPath;
+
         /// <summary>
         ///     Plugin Name
         /// </summary>
         public string Name => GetType().Name;
+
         /// <summary>
         ///     Preferences Allowing for User Configuration
         /// </summary>
         public IniFile Preferences => _prefs ?? (_prefs = ReloadConfig());
-        internal string ConfigPath => Extensions.CombinePaths(DataPath, Name.Asciify() + ".ini");
-        #endregion
 
-        #region Methods
         /// <summary>
         ///     Call to Reload Configuration File
         /// </summary>
@@ -59,7 +56,5 @@ namespace UnityInjector
         ///     Call to Save Configuration File
         /// </summary>
         protected void SaveConfig() => Preferences.Save(ConfigPath);
-        #endregion
     }
-
 }

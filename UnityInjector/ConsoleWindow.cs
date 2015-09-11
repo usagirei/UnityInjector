@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------
-// UnityInjector - Win32.cs
+// UnityInjector - ConsoleWindow.cs
 // --------------------------------------------------
 
 #region Usings
+
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -12,43 +13,12 @@ using System.Text;
 
 namespace UnityInjector
 {
-
     internal class ConsoleWindow
     {
-        #region DllImports
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool AllocConsole();
-
-        [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true)]
-        private static extern bool CloseHandle(IntPtr handle);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr CreateFile(
-            string fileName,
-            int desiredAccess,
-            int shareMode,
-            IntPtr securityAttributes,
-            int creationDisposition,
-            int flagsAndAttributes,
-            IntPtr templateFile);
-
-        [DllImport("kernel32.dll", SetLastError = false)]
-        private static extern bool FreeConsole();
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern IntPtr GetStdHandle(int nStdHandle);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool SetStdHandle(int nStdHandle, IntPtr hConsoleOutput);
-        #endregion
-
-        #region Static Fields
-        private static IntPtr _cOut;
         private static bool _attached;
+        private static IntPtr _cOut;
         private static IntPtr _oOut;
-        #endregion
 
-        #region Public Static Methods
         public static void Attach()
         {
             if (_attached)
@@ -78,9 +48,29 @@ namespace UnityInjector
             Init();
             _attached = false;
         }
-        #endregion
 
-        #region Static Methods
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true)]
+        private static extern bool CloseHandle(IntPtr handle);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr CreateFile(
+            string fileName,
+            int desiredAccess,
+            int shareMode,
+            IntPtr securityAttributes,
+            int creationDisposition,
+            int flagsAndAttributes,
+            IntPtr templateFile);
+
+        [DllImport("kernel32.dll", SetLastError = false)]
+        private static extern bool FreeConsole();
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr GetStdHandle(int nStdHandle);
+
         private static void Init()
         {
             var stdOut = Console.OpenStandardOutput();
@@ -91,7 +81,8 @@ namespace UnityInjector
             Console.SetOut(stdWriter);
             Console.SetError(stdWriter);
         }
-        #endregion
-    }
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool SetStdHandle(int nStdHandle, IntPtr hConsoleOutput);
+    }
 }
