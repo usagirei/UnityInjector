@@ -11,9 +11,11 @@ using UnityInjector.Attributes;
 namespace UnityInjector.Plugins
 {
     [PluginName("Debug Plugin")]
-    [PluginVersion("1.0.0.1")]
+    [PluginVersion("1.0.0.2")]
     public class DebugPlugin : PluginBase
     {
+        private static ConsoleMirror consoleMirror;
+
         private bool Enabled
         {
             get
@@ -80,12 +82,13 @@ namespace UnityInjector.Plugins
         {
             if (!Enabled)
                 return;
+            DontDestroyOnLoad(this);
             try
             {
                 ConsoleWindow.Attach();
-                if (Mirror)
+                if (Mirror && consoleMirror == null)
                 {
-                    var mirr = new ConsoleMirror("debug.log");
+                    consoleMirror = new ConsoleMirror("debug.log");
                 }
 
                 Console.WriteLine("Callback Hooked");
@@ -95,6 +98,7 @@ namespace UnityInjector.Plugins
             {
                 Console.WriteLine(ex.ToString());
             }
+            
         }
     }
 }
