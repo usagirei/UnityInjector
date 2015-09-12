@@ -1,13 +1,16 @@
 ﻿// --------------------------------------------------
-// UnityInjector_RP - RP_Patch.cs
+// UnityInjector.Patcher - RpPatch.cs
 // --------------------------------------------------
 
 #region Usings
+
 using System;
 using System.IO;
 using System.Linq;
+
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+
 using ReiPatcher;
 using ReiPatcher.Patch;
 
@@ -15,32 +18,36 @@ using ReiPatcher.Patch;
 
 namespace UnityInjector.Patcher
 {
-
     internal class RpPatch : PatchBase
     {
         #region Constants
+
         private const string TOKEN = "UnityInjector";
+
         #endregion
 
         #region Properties
+
         public string ClassName
         {
-            get { return RPConfig.ConfigFile[TOKEN]["Class"].Value; }
-            set { RPConfig.ConfigFile[TOKEN]["Class"].Value = value; }
+            get { return RPConfig.GetConfig(TOKEN, "Class"); }
+            set { RPConfig.SetConfig(TOKEN, "Class", value); }
         }
 
         public string MethodName
         {
-            get { return RPConfig.ConfigFile[TOKEN]["Method"].Value; }
-            set { RPConfig.ConfigFile[TOKEN]["Method"].Value = value; }
+            get { return RPConfig.GetConfig(TOKEN, "Method"); }
+            set { RPConfig.SetConfig(TOKEN, "Method", value); }
         }
 
         public override string Name => "UnityInjector Patch";
         public override string Version => GetType().Assembly.GetName().Version.ToString();
         private AssemblyDefinition InjectorDef { get; set; }
+
         #endregion
 
         #region Public Methods
+
         public override bool CanPatch(PatcherArguments args)
         {
             if (args.Assembly.Name.Name != "Assembly-CSharp"
@@ -108,7 +115,7 @@ namespace UnityInjector.Patcher
             using (Stream s = File.OpenRead(path))
                 InjectorDef = AssemblyDefinition.ReadAssembly(s);
         }
+
         #endregion
     }
-
 }

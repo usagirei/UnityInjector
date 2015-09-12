@@ -30,16 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExIni">
-      <HintPath>..\..\..\ExIni\Releases\ExIni_1.0.2.1\ExIni.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\..\ReiPatcher\Releases\0.9.0.6\ReiPatcher_0.9.0.6\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ReiPatcher">
-      <HintPath>..\..\..\ReiPatcher\Releases\0.9.0.6\ReiPatcher_0.9.0.6\ReiPatcher.exe</HintPath>
+      <HintPath>..\..\..\ReiPatcher\Releases\0.9.0.8\ReiPatcher_0.9.0.8\ReiPatcher.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">
