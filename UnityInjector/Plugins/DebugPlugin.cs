@@ -8,7 +8,6 @@ using System.Reflection;
 using UnityEngine;
 
 using UnityInjector.Attributes;
-using UnityInjector.ConsoleEx;
 using UnityInjector.ConsoleUtil;
 
 namespace UnityInjector.Plugins

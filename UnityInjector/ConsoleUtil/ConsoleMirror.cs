@@ -7,9 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-using UnityInjector.ConsoleUtil;
-
-namespace UnityInjector.ConsoleEx
+namespace UnityInjector.ConsoleUtil
 {
     internal class ConsoleMirror : IDisposable
     {
