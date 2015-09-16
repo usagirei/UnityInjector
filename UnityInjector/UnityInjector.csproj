@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,12 +46,13 @@
     <Compile Include="Attributes\ExeFilterAttribute.cs" />
     <Compile Include="Attributes\PluginNameAttribute.cs" />
     <Compile Include="Attributes\PluginVersionAttribute.cs" />
+    <Compile Include="ConsoleUtil\SafeConsole.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="PluginBase.cs" />
     <Compile Include="PluginManager.cs" />
-    <Compile Include="ConsoleMirror.cs" />
-    <Compile Include="ConsoleWindow.cs" />
+    <Compile Include="ConsoleUtil\ConsoleMirror.cs" />
+    <Compile Include="ConsoleUtil\ConsoleWindow.cs" />
     <Compile Include="Plugins\DebugPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

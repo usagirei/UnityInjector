@@ -3,10 +3,13 @@
 // --------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace UnityInjector
+using UnityInjector.ConsoleUtil;
+
+namespace UnityInjector.ConsoleEx
 {
     internal class ConsoleMirror : IDisposable
     {
@@ -18,7 +21,7 @@ namespace UnityInjector
         {
             try
             {
-                _fileStream = File.Create(path);
+                _fileStream = File.Open(path, FileMode.Append, FileAccess.Write, FileShare.Read);
                 _fileWriter = new StreamWriter(_fileStream)
                 {
                     AutoFlush = true
@@ -27,17 +30,18 @@ namespace UnityInjector
             }
             catch (Exception e)
             {
+                SafeConsole.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("Couldn't open file to write: {0}", Path.GetFileName(path));
-#if COLOR
-                Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine(e.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
-#else
-                Console.WriteLine(e.Message);
-#endif
+                SafeConsole.ForegroundColor = ConsoleColor.Gray;
+                
                 return;
             }
             Console.SetOut(_tWriter);
+
+            Console.WriteLine();
+            Console.WriteLine($" {Process.GetCurrentProcess().ProcessName} - {DateTime.Now:dd-MM-yyyy hh:mm:ss} ".PadCenter(79, '='));
+            Console.WriteLine();
         }
 
         public void Dispose()

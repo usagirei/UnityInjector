@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace UnityInjector
 {
-    public static class Extensions
+    internal static class Extensions
     {
         public static string PluginsPath { get; } = Path.Combine(Environment.CurrentDirectory, "UnityInjector");
         public static string UserDataPath { get; } = Path.Combine(PluginsPath, "Config");
@@ -25,6 +25,13 @@ namespace UnityInjector
         {
             foreach (var tee in tees)
                 action(tee);
+        }
+
+        public static string PadCenter(this string str, int totalWidth, char paddingChar = ' ')
+        {
+            int spaces = totalWidth - str.Length;
+            int padLeft = spaces / 2 + str.Length;
+            return str.PadLeft(padLeft, paddingChar).PadRight(totalWidth, paddingChar);
         }
     }
 }

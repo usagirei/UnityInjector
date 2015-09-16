@@ -3,10 +3,13 @@
 // --------------------------------------------------
 
 using System;
+using System.Reflection;
 
 using UnityEngine;
 
 using UnityInjector.Attributes;
+using UnityInjector.ConsoleEx;
+using UnityInjector.ConsoleUtil;
 
 namespace UnityInjector.Plugins
 {
@@ -14,7 +17,7 @@ namespace UnityInjector.Plugins
     [PluginVersion("1.0.0.2")]
     public class DebugPlugin : PluginBase
     {
-        private static ConsoleMirror consoleMirror;
+        private static ConsoleMirror _consoleMirror;
 
         private bool Enabled
         {
@@ -40,7 +43,6 @@ namespace UnityInjector.Plugins
 
         public DebugPlugin()
         {
-            Console.WriteLine("Initializing Debug Plugin");
             if (!Preferences.HasSection("Config") || !Preferences["Config"].HasKey("Enable") ||
                 string.IsNullOrEmpty(Preferences["Config"]["Enable"].Value))
             {
@@ -58,24 +60,24 @@ namespace UnityInjector.Plugins
 
         private static void HandleLog(string message, string stackTrace, LogType type)
         {
-#if COLOR
             switch (type)
             {
                 case LogType.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                case LogType.Assert:
+                    SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                     break;
                 case LogType.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
+                case LogType.Exception:
+                    SafeConsole.ForegroundColor = ConsoleColor.Red;
                     break;
                 default:
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    SafeConsole.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
-#endif
+
             Console.WriteLine(message);
-#if COLOR
-            Console.ForegroundColor = ConsoleColor.Gray;
-#endif
+
+            SafeConsole.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void Awake()
@@ -86,19 +88,31 @@ namespace UnityInjector.Plugins
             try
             {
                 ConsoleWindow.Attach();
-                if (Mirror && consoleMirror == null)
-                {
-                    consoleMirror = new ConsoleMirror("debug.log");
-                }
+                if (Mirror && _consoleMirror == null)
+                    _consoleMirror = new ConsoleMirror("debug.log");
 
-                Console.WriteLine("Callback Hooked");
+                Console.WriteLine("Initialized Debug Plugin");
+
+                SafeConsole.ForegroundColor = ConsoleColor.Cyan;
+
+                const int width = 79;
+
+                Console.WriteLine(new string('=', width));
+                Console.WriteLine("If this message is gray, this game was compiled".PadCenter(width));
+                Console.WriteLine("With a mscorlib missing Console Properties".PadCenter(width));
+                Console.WriteLine("In which case, avoid setting colors via the System.Console type.".PadCenter(width));
+                Console.WriteLine("Use the SafeConsole type Properties provided in UnityInjector instead".PadCenter(width));
+                Console.WriteLine(new string('=', width));
+
+                SafeConsole.ForegroundColor = ConsoleColor.Gray;
+
                 Application.RegisterLogCallback(HandleLog);
+                Console.WriteLine("Log Callback Hooked");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            
         }
     }
 }

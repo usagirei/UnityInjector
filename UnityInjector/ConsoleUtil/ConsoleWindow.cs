@@ -11,7 +11,7 @@ using System.Text;
 
 #endregion
 
-namespace UnityInjector
+namespace UnityInjector.ConsoleEx
 {
     internal class ConsoleWindow
     {

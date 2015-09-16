@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------
-// UnityInjector.Patcher - RpPatch.cs
+// UnityInjector.Patcher - UnityInjector.cs
 // --------------------------------------------------
 
 #region Usings
@@ -18,7 +18,7 @@ using ReiPatcher.Patch;
 
 namespace UnityInjector.Patcher
 {
-    internal class RpPatch : PatchBase
+    internal class UnityInjectorPatch : PatchBase
     {
         #region Constants
 
@@ -56,9 +56,7 @@ namespace UnityInjector.Patcher
                 || string.IsNullOrEmpty(MethodName))
                 return false;
 
-            var module = args.Assembly.MainModule;
-            var @class = module.GetType(ClassName);
-            var patchAttr = GetPatchedAttributes(@class);
+            var patchAttr = GetPatchedAttributes(args.Assembly);
 
             if (patchAttr.Any(attr => attr.Info.Equals(TOKEN)))
             {
@@ -89,7 +87,7 @@ namespace UnityInjector.Patcher
             var first = meth.Body.Instructions.First();
             ilp.InsertBefore(first, ilp.Create(OpCodes.Call, init));
 
-            SetPatchedAttribute(@class, TOKEN);
+            SetPatchedAttribute(args.Assembly, TOKEN);
         }
 
         public override void PrePatch()

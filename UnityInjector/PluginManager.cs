@@ -12,6 +12,7 @@ using System.Reflection;
 using UnityEngine;
 
 using UnityInjector.Attributes;
+using UnityInjector.ConsoleUtil;
 using UnityInjector.Plugins;
 
 namespace UnityInjector
@@ -28,7 +29,6 @@ namespace UnityInjector
             IsInitialized = true;
 
             var managerObject = new GameObject(nameof(UnityInjector));
-
             managerObject.AddComponent<DebugPlugin>();
 
             var plugins = new List<Type>();
@@ -41,19 +41,22 @@ namespace UnityInjector
                 Console.WriteLine(ex.ToString());
             }
 
+            
+            Console.WriteLine(" Plugin Manager Start ".PadCenter(79, '-'));
             foreach (var type in plugins)
             {
                 Console.WriteLine("Adding Component: '{0}'", type.Name);
                 try
                 {
-                    var x = managerObject.AddComponent(type);
+                    managerObject.AddComponent(type);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
             }
-            Console.WriteLine("Plugin Manager End");
+            Console.WriteLine(" Plugin Manager End ".PadCenter(79, '-'));
+            
             managerObject.SetActive(true);
         }
 
@@ -101,25 +104,19 @@ namespace UnityInjector
                     }
                     catch (Exception ex)
                     {
-#if COLOR
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+
+                        SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine(ex.ToString());
-                        Console.ForegroundColor = ConsoleColor.Gray;
-#else
-                        Console.WriteLine(ex.ToString());
-#endif
+                        SafeConsole.ForegroundColor = ConsoleColor.Gray;
+
                     }
                 }
             }
             catch (Exception ex)
             {
-#if COLOR
-                Console.ForegroundColor = ConsoleColor.Red;
+                SafeConsole.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.ToString());
-                Console.ForegroundColor = ConsoleColor.Gray;
-#else
-                Console.WriteLine(ex.ToString());
-#endif
+                SafeConsole.ForegroundColor = ConsoleColor.Gray;
             }
             return plugins;
         }
