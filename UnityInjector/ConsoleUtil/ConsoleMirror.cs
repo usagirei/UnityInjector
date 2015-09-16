@@ -11,20 +11,18 @@ namespace UnityInjector.ConsoleUtil
 {
     internal class ConsoleMirror : IDisposable
     {
-        private readonly FileStream _fileStream;
-        private readonly StreamWriter _fileWriter;
         private readonly MirrorWriter _tWriter;
 
         public ConsoleMirror(string path)
         {
             try
             {
-                _fileStream = File.Open(path, FileMode.Append, FileAccess.Write, FileShare.Read);
-                _fileWriter = new StreamWriter(_fileStream)
+                var fileStream = File.Open(path, FileMode.Append, FileAccess.Write, FileShare.Read);
+                var fileWriter = new StreamWriter(fileStream)
                 {
                     AutoFlush = true
                 };
-                _tWriter = new MirrorWriter(_fileWriter, Console.Out);
+                _tWriter = new MirrorWriter(fileWriter, Console.Out);
             }
             catch (Exception e)
             {
@@ -32,13 +30,17 @@ namespace UnityInjector.ConsoleUtil
                 Console.WriteLine("Couldn't open file to write: {0}", Path.GetFileName(path));
                 Console.WriteLine(e.Message);
                 SafeConsole.ForegroundColor = ConsoleColor.Gray;
-                
+
                 return;
             }
             Console.SetOut(_tWriter);
 
             Console.WriteLine();
-            Console.WriteLine($" {Process.GetCurrentProcess().ProcessName} - {DateTime.Now:dd-MM-yyyy hh:mm:ss} ".PadCenter(79, '='));
+
+            var processName = Process.GetCurrentProcess().ProcessName;
+            var now = DateTime.Now;
+
+            Console.WriteLine($" {processName} - {now:dd-MM-yyyy hh:mm:ss} ".PadCenter(79, '='));
             Console.WriteLine();
         }
 
@@ -55,25 +57,15 @@ namespace UnityInjector.ConsoleUtil
 
         private class MirrorWriter : TextWriter
         {
-            #region (De)Constructors
+            public TextWriter Console { get; }
+            public override Encoding Encoding => File.Encoding;
+            public TextWriter File { get; }
 
             public MirrorWriter(TextWriter file, TextWriter console)
             {
                 File = file;
                 Console = console;
             }
-
-            #endregion
-
-            #region Properties
-
-            public TextWriter Console { get; }
-            public override Encoding Encoding => File.Encoding;
-            public TextWriter File { get; }
-
-            #endregion
-
-            #region Public Methods
 
             public override void Flush()
             {
@@ -86,8 +78,6 @@ namespace UnityInjector.ConsoleUtil
                 File.Write(value);
                 Console.Write(value);
             }
-
-            #endregion
         }
     }
 }

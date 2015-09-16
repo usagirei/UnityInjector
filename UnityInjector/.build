@@ -8,6 +8,7 @@
 		<Optimize>true</Optimize>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 		
 	<Import Project="UnityInjector.csproj" />
