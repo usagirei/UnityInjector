@@ -1,5 +1,6 @@
-// --------------------------------------------------
+﻿// --------------------------------------------------
 // UnityInjector - ConsoleEncoding.Buffers.cs
+// Copyright (c) Usagirei 2015 - 2015
 // --------------------------------------------------
 
 namespace UnityInjector.ConsoleUtil

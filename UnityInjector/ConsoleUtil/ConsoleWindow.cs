@@ -1,15 +1,12 @@
 ﻿// --------------------------------------------------
 // UnityInjector - ConsoleWindow.cs
+// Copyright (c) Usagirei 2015 - 2015
 // --------------------------------------------------
-
-
 
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-
-
 
 namespace UnityInjector.ConsoleUtil
 {

@@ -1,5 +1,6 @@
 ﻿// --------------------------------------------------
 // UnityInjector - DebugPlugin.cs
+// Copyright (c) Usagirei 2015 - 2015
 // --------------------------------------------------
 
 using System;
@@ -68,12 +69,10 @@ namespace UnityInjector.Plugins
                 case LogType.Assert:
                     SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                     break;
-
                 case LogType.Error:
                 case LogType.Exception:
                     SafeConsole.ForegroundColor = ConsoleColor.Red;
                     break;
-
                 default:
                     SafeConsole.ForegroundColor = ConsoleColor.Gray;
                     break;

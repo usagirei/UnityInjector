@@ -1,5 +1,6 @@
 ﻿// --------------------------------------------------
 // UnityInjector - ConsoleEncoding.PInvoke.cs
+// Copyright (c) Usagirei 2015 - 2015
 // --------------------------------------------------
 
 using System;

@@ -1,16 +1,13 @@
 ﻿// --------------------------------------------------
 // UnityInjector - PluginBase.cs
+// Copyright (c) Usagirei 2015 - 2015
 // --------------------------------------------------
-
-
 
 using System.IO;
 
 using ExIni;
 
 using UnityEngine;
-
-
 
 namespace UnityInjector
 {

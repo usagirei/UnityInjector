@@ -1,16 +1,13 @@
 ﻿// --------------------------------------------------
 // UnityInjector - Extensions.cs
+// Copyright (c) Usagirei 2015 - 2015
 // --------------------------------------------------
-
-
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-
-
 
 namespace UnityInjector
 {
