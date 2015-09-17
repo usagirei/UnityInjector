@@ -42,24 +42,24 @@ namespace UnityInjector.ConsoleUtil
             var gbc = tConsole.GetMethod("get_BackgroundColor", BINDING_FLAGS);
 
             _setForegroundColor = sfc != null
-                                     ? (SetColorDelegate) Delegate.CreateDelegate(typeof(SetColorDelegate), sfc)
-                                     : (value => {});
+                                      ? (SetColorDelegate) Delegate.CreateDelegate(typeof(SetColorDelegate), sfc)
+                                      : (value => {});
 
             _setBackgroundColor = sbc != null
-                                     ? (SetColorDelegate) Delegate.CreateDelegate(typeof(SetColorDelegate), sbc)
-                                     : (value => {});
+                                      ? (SetColorDelegate) Delegate.CreateDelegate(typeof(SetColorDelegate), sbc)
+                                      : (value => {});
 
             _getForegroundColor = gfc != null
-                                     ? (GetColorDelegate) Delegate.CreateDelegate(typeof(GetColorDelegate), gfc)
-                                     : (() => ConsoleColor.Gray);
+                                      ? (GetColorDelegate) Delegate.CreateDelegate(typeof(GetColorDelegate), gfc)
+                                      : (() => ConsoleColor.Gray);
 
             _getBackgroundColor = gbc != null
-                                     ? (GetColorDelegate) Delegate.CreateDelegate(typeof(GetColorDelegate), gbc)
-                                     : (() => ConsoleColor.Black);
+                                      ? (GetColorDelegate) Delegate.CreateDelegate(typeof(GetColorDelegate), gbc)
+                                      : (() => ConsoleColor.Black);
         }
 
-        private delegate void SetColorDelegate(ConsoleColor value);
-
         private delegate ConsoleColor GetColorDelegate();
+
+        private delegate void SetColorDelegate(ConsoleColor value);
     }
 }

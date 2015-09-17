@@ -1,11 +1,11 @@
 // --------------------------------------------------
-// UnityInjector - Win32Encoding.Buffers.cs
+// UnityInjector - ConsoleEncoding.Buffers.cs
 // --------------------------------------------------
 
 namespace UnityInjector.ConsoleUtil
 {
     // --------------------------------------------------
-    // Code ported from 
+    // Code ported from
     // https://gist.github.com/asm256/9bfb88336a1433e2328a
     // Which in turn was seemingly ported from
     // http://jonskeet.uk/csharp/ebcdic/

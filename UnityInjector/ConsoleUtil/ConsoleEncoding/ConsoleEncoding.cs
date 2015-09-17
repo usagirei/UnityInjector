@@ -8,7 +8,7 @@ using System.Text;
 namespace UnityInjector.ConsoleUtil
 {
     // --------------------------------------------------
-    // Code ported from 
+    // Code ported from
     // https://gist.github.com/asm256/9bfb88336a1433e2328a
     // Which in turn was seemingly ported from
     // http://jonskeet.uk/csharp/ebcdic/
@@ -19,15 +19,15 @@ namespace UnityInjector.ConsoleUtil
         private readonly uint _codePage;
         public override int CodePage => (int) _codePage;
 
-        private ConsoleEncoding(uint codePage)
-        {
-            _codePage = codePage;
-        }
-
         public static uint ConsoleCodePage
         {
             get { return GetConsoleOutputCP(); }
-            set { SetConsoleOutputCP(value);}
+            set { SetConsoleOutputCP(value); }
+        }
+
+        private ConsoleEncoding(uint codePage)
+        {
+            _codePage = codePage;
         }
 
         public static ConsoleEncoding GetEncoding(uint codePage)

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------
-// UnityInjector - Win32Encoding.PInvoke.cs
+// UnityInjector - ConsoleEncoding.PInvoke.cs
 // --------------------------------------------------
 
 using System;
@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace UnityInjector.ConsoleUtil
 {
     // --------------------------------------------------
-    // Code ported from 
+    // Code ported from
     // https://gist.github.com/asm256/9bfb88336a1433e2328a
     // Which in turn was seemingly ported from
     // http://jonskeet.uk/csharp/ebcdic/
@@ -16,6 +16,9 @@ namespace UnityInjector.ConsoleUtil
     // --------------------------------------------------
     partial class ConsoleEncoding
     {
+        [DllImport("kernel32.dll")]
+        private static extern uint GetConsoleOutputCP();
+
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern int MultiByteToWideChar(
             uint codePage,
@@ -27,9 +30,6 @@ namespace UnityInjector.ConsoleUtil
 
         [DllImport("kernel32.dll")]
         private static extern IntPtr SetConsoleOutputCP(uint codepage);
-
-        [DllImport("kernel32.dll")]
-        private static extern uint GetConsoleOutputCP();
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern int WideCharToMultiByte(

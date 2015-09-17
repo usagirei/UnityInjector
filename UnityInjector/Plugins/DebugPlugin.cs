@@ -60,19 +60,6 @@ namespace UnityInjector.Plugins
                 SaveConfig();
         }
 
-        private bool InitConfig(string section, string key, string value, params string[] comments)
-        {
-            if (!Preferences.HasSection(section)
-                || !Preferences[section].HasKey(key)
-                || string.IsNullOrEmpty(Preferences[section][key].Value))
-            {
-                Preferences[section][key].Value = value;
-                Preferences[section][key].Comments.Comments.AddRange(comments);
-                return true;
-            }
-            return false;
-        }
-
         private static void HandleLog(string message, string stackTrace, LogType type)
         {
             switch (type)
@@ -81,10 +68,12 @@ namespace UnityInjector.Plugins
                 case LogType.Assert:
                     SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                     break;
+
                 case LogType.Error:
                 case LogType.Exception:
                     SafeConsole.ForegroundColor = ConsoleColor.Red;
                     break;
+
                 default:
                     SafeConsole.ForegroundColor = ConsoleColor.Gray;
                     break;
@@ -127,7 +116,6 @@ namespace UnityInjector.Plugins
                 Console.WriteLine(new string('=', width));
                 SafeConsole.ForegroundColor = ConsoleColor.Gray;
 
-
                 Application.RegisterLogCallback(HandleLog);
                 Console.WriteLine("Log Callback Hooked");
             }
@@ -135,6 +123,19 @@ namespace UnityInjector.Plugins
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        private bool InitConfig(string section, string key, string value, params string[] comments)
+        {
+            if (!Preferences.HasSection(section)
+                || !Preferences[section].HasKey(key)
+                || string.IsNullOrEmpty(Preferences[section][key].Value))
+            {
+                Preferences[section][key].Value = value;
+                Preferences[section][key].Comments.Comments.AddRange(comments);
+                return true;
+            }
+            return false;
         }
     }
 }

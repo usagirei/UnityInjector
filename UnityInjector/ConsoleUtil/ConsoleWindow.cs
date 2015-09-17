@@ -2,14 +2,14 @@
 // UnityInjector - ConsoleWindow.cs
 // --------------------------------------------------
 
-#region Usings
+
 
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-#endregion
+
 
 namespace UnityInjector.ConsoleUtil
 {

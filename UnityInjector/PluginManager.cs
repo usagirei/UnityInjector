@@ -41,7 +41,6 @@ namespace UnityInjector
                 Console.WriteLine(ex.ToString());
             }
 
-            
             Console.WriteLine(" Plugin Manager Start ".PadCenter(79, '-'));
             foreach (var type in plugins)
             {
@@ -56,7 +55,7 @@ namespace UnityInjector
                 }
             }
             Console.WriteLine(" Plugin Manager End ".PadCenter(79, '-'));
-            
+
             managerObject.SetActive(true);
         }
 
@@ -104,11 +103,9 @@ namespace UnityInjector
                     }
                     catch (Exception ex)
                     {
-
                         SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine(ex.ToString());
                         SafeConsole.ForegroundColor = ConsoleColor.Gray;
-
                     }
                 }
             }

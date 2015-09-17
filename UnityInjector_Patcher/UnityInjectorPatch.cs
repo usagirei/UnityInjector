@@ -1,8 +1,6 @@
 ﻿// --------------------------------------------------
-// UnityInjector.Patcher - UnityInjector.cs
+// UnityInjector.Patcher - UnityInjectorPatch.cs
 // --------------------------------------------------
-
-#region Usings
 
 using System;
 using System.IO;
@@ -14,25 +12,19 @@ using Mono.Cecil.Cil;
 using ReiPatcher;
 using ReiPatcher.Patch;
 
-#endregion
-
 namespace UnityInjector.Patcher
 {
     internal class UnityInjectorPatch : PatchBase
     {
-        #region Constants
-
         private const string TOKEN = "UnityInjector";
-
-        #endregion
-
-        #region Properties
 
         public string ClassName
         {
             get { return RPConfig.GetConfig(TOKEN, "Class"); }
             set { RPConfig.SetConfig(TOKEN, "Class", value); }
         }
+
+        private AssemblyDefinition InjectorDef { get; set; }
 
         public string MethodName
         {
@@ -42,11 +34,6 @@ namespace UnityInjector.Patcher
 
         public override string Name => "UnityInjector Patch";
         public override string Version => GetType().Assembly.GetName().Version.ToString();
-        private AssemblyDefinition InjectorDef { get; set; }
-
-        #endregion
-
-        #region Public Methods
 
         public override bool CanPatch(PatcherArguments args)
         {
@@ -113,7 +100,5 @@ namespace UnityInjector.Patcher
             using (Stream s = File.OpenRead(path))
                 InjectorDef = AssemblyDefinition.ReadAssembly(s);
         }
-
-        #endregion
     }
 }

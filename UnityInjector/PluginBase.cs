@@ -2,7 +2,7 @@
 // UnityInjector - PluginBase.cs
 // --------------------------------------------------
 
-#region Usings
+
 
 using System.IO;
 
@@ -10,7 +10,7 @@ using ExIni;
 
 using UnityEngine;
 
-#endregion
+
 
 namespace UnityInjector
 {
