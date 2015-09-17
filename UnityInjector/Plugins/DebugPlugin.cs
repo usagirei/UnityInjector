@@ -70,8 +70,10 @@ namespace UnityInjector.Plugins
                     SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                     break;
                 case LogType.Error:
-                case LogType.Exception:
                     SafeConsole.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case LogType.Exception:
+                    SafeConsole.BackgroundColor = ConsoleColor.DarkRed;
                     break;
                 default:
                     SafeConsole.ForegroundColor = ConsoleColor.Gray;
@@ -81,6 +83,7 @@ namespace UnityInjector.Plugins
             Console.WriteLine(message);
 
             SafeConsole.ForegroundColor = ConsoleColor.Gray;
+            SafeConsole.BackgroundColor = ConsoleColor.Black;
         }
 
         public void Awake()
