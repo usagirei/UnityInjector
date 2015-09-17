@@ -21,5 +21,6 @@ del Build\* /q /s
 echo ---------- Building Solution
 msbuild.exe UnityInjector\.build
 msbuild.exe UnityInjector_Patcher\.build
+copy README.md Build\README.txt
 :end
 pause
