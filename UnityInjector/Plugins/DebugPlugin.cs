@@ -13,7 +13,6 @@ using UnityInjector.ConsoleUtil;
 namespace UnityInjector.Plugins
 {
     [PluginName("Debug Plugin")]
-    [PluginVersion("1.0.0.2")]
     public class DebugPlugin : PluginBase
     {
         private static ConsoleMirror _consoleMirror;

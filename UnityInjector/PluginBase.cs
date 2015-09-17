@@ -14,7 +14,7 @@ namespace UnityInjector
     /// <summary>
     ///     Abstract Class for generic unity plugins
     /// </summary>
-    public abstract partial class PluginBase : MonoBehaviour
+    public abstract class PluginBase : MonoBehaviour
     {
         private IniFile _prefs;
         internal string ConfigPath => Extensions.CombinePaths(DataPath, Name.Asciify() + ".ini");

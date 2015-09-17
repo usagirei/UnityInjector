@@ -18,7 +18,7 @@ using UnityInjector.Plugins;
 
 namespace UnityInjector
 {
-    internal static class PluginManager
+    public static class PluginManager
     {
         public static bool IsInitialized { get; private set; }
 
