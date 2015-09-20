@@ -65,14 +65,16 @@ namespace UnityInjector.Plugins
             switch (type)
             {
                 case LogType.Warning:
-                case LogType.Assert:
                     SafeConsole.ForegroundColor = ConsoleColor.Yellow;
                     break;
-                case LogType.Error:
-                    SafeConsole.ForegroundColor = ConsoleColor.Red;
+                case LogType.Assert:
+                    SafeConsole.ForegroundColor = ConsoleColor.Cyan;
                     break;
                 case LogType.Exception:
-                    SafeConsole.BackgroundColor = ConsoleColor.DarkRed;
+                    SafeConsole.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case LogType.Error:
+                    SafeConsole.ForegroundColor = ConsoleColor.DarkRed;
                     break;
                 default:
                     SafeConsole.ForegroundColor = ConsoleColor.Gray;
@@ -82,7 +84,6 @@ namespace UnityInjector.Plugins
             Console.WriteLine(message);
 
             SafeConsole.ForegroundColor = ConsoleColor.Gray;
-            SafeConsole.BackgroundColor = ConsoleColor.Black;
         }
 
         public void Awake()
@@ -100,6 +101,10 @@ namespace UnityInjector.Plugins
 
                 if (CodePage != -1)
                 {
+                    Console.WriteLine($"Setting CodePage to '{CodePage}'");
+                    Console.WriteLine("If no text is output after this");
+                    Console.WriteLine("It's a invalid codepage or");
+                    Console.WriteLine("Your system probably doesn't support it");
                     uint uCodePage = (uint) CodePage;
                     ConsoleEncoding.ConsoleCodePage = uCodePage;
                     Console.OutputEncoding = ConsoleEncoding.GetEncoding(uCodePage);
