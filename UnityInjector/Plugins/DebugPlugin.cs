@@ -55,7 +55,7 @@ namespace UnityInjector.Plugins
             var init = false;
             init |= InitConfig("Config", nameof(Enabled), bool.TrueString, "Enables Debug Plugin");
             init |= InitConfig("Config", nameof(Mirror), bool.FalseString, "Enables Mirroring to debug.log");
-            init |= InitConfig("Config", nameof(CodePage), "-1", "CodePage, -1 for System Default");
+            init |= InitConfig("Config", nameof(CodePage), "-1", "CodePage: -1 to Disable, 0 for System Default, 1+ for Manual");
             if (init)
                 SaveConfig();
         }
@@ -94,22 +94,25 @@ namespace UnityInjector.Plugins
             try
             {
                 ConsoleWindow.Attach();
-                if (Mirror && _consoleMirror == null)
-                    _consoleMirror = new ConsoleMirror("debug.log");
-
                 Console.WriteLine("Initialized Debug Plugin");
 
                 if (CodePage != -1)
                 {
-                    Console.WriteLine($"Setting CodePage to '{CodePage}'");
-                    Console.WriteLine("If no text is output after this");
-                    Console.WriteLine("It's a invalid codepage or");
-                    Console.WriteLine("Your system probably doesn't support it");
-                    uint uCodePage = (uint) CodePage;
-                    ConsoleEncoding.ConsoleCodePage = uCodePage;
-                    Console.OutputEncoding = ConsoleEncoding.GetEncoding(uCodePage);
-                    Console.WriteLine($"Console CodePage set to '{CodePage}'");
+                    // Calls GetACP to determine Active CodePage
+                    // Thanks to @neguse11 for the tip
+                    var targetCodePage = CodePage == 0
+                                             ? ConsoleEncoding.GetActiveCodePage()
+                                             : (uint) CodePage;
+
+                    Console.WriteLine($"Setting CodePage to '{targetCodePage}'");
+                    Console.WriteLine("If no text is output after this, it's a invalid codepage or " +
+                                      "your system probably doesn't support it");
+                    ConsoleEncoding.ConsoleCodePage = targetCodePage;
+                    Console.OutputEncoding = ConsoleEncoding.GetEncoding(targetCodePage);
                 }
+
+                if (Mirror && _consoleMirror == null)
+                    _consoleMirror = new ConsoleMirror("debug.log");
 
                 const int width = 79;
 

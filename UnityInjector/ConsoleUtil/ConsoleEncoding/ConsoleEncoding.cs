@@ -26,6 +26,11 @@ namespace UnityInjector.ConsoleUtil
             set { SetConsoleOutputCP(value); }
         }
 
+        public static uint GetActiveCodePage()
+        {
+            return GetACP();
+        }
+
         private ConsoleEncoding(uint codePage)
         {
             _codePage = codePage;

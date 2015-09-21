@@ -20,6 +20,9 @@ namespace UnityInjector.ConsoleUtil
         [DllImport("kernel32.dll")]
         private static extern uint GetConsoleOutputCP();
 
+        [DllImport("kernel32.dll")]
+        private static extern uint GetACP();
+
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern int MultiByteToWideChar(
             uint codePage,
