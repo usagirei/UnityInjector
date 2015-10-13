@@ -88,6 +88,9 @@ namespace UnityInjector
                 {
                     try
                     {
+                        if (t.IsAbstract || t.IsInterface)
+                            continue;
+
                         //var instance = (PluginBase) Activator.CreateInstance(t);
                         var attribs = t.GetCustomAttributes(false);
 

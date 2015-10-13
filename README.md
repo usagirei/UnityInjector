@@ -9,6 +9,20 @@
 [2] Patcher Dlls go in this directory
 [3] Plugin Dlls go in this directory
 
+### Configuring
+
+UnityInjector REQUIRES some configuration prior to patching, in your target ReiPatcher ini configuration file, add the following
+
+    [UnityInjector]
+    ;Assembly to patch, usually Assembly-CSharp or Assembly-UnityScript
+    Assembly=
+    ;Class to patch, usually Derived from MonoBehaviour
+    Class=
+    ;Method to patch, usually Start or Awake
+    Method=
+
+And configure it as specified for your game
+
 ---
 ### DebugPlugin
 

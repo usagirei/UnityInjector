@@ -33,12 +33,30 @@ namespace UnityInjector.Patcher
             set { RPConfig.SetConfig(TOKEN, "Method", value); }
         }
 
+        private static string AssemblyName
+        {
+            get { return RPConfig.GetConfig(TOKEN, "Assembly"); }
+            set { RPConfig.SetConfig(TOKEN, "Assembly", value); }
+        }
+
         public override string Name => "UnityInjector Patch";
         public override string Version => GetType().Assembly.GetName().Version.ToString();
 
         public override bool CanPatch(PatcherArguments args)
         {
-            if (args.Assembly.Name.Name != "Assembly-CSharp"
+            if (
+                string.IsNullOrEmpty(AssemblyName)
+                || string.IsNullOrEmpty(ClassName)
+                || string.IsNullOrEmpty(MethodName)
+                )
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid or Missing UnityInjector Configurations");
+                Console.WriteLine("Check your INI configuration file");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                return false;
+            }
+            if (args.Assembly.Name.Name != AssemblyName
                 || InjectorDef == null
                 || string.IsNullOrEmpty(ClassName)
                 || string.IsNullOrEmpty(MethodName))
@@ -56,6 +74,8 @@ namespace UnityInjector.Patcher
 
             return true;
         }
+
+
 
         public override void Patch(PatcherArguments args)
         {
@@ -80,18 +100,31 @@ namespace UnityInjector.Patcher
 
         public override void PrePatch()
         {
+            bool invalidSetting = false;
             if (string.IsNullOrEmpty(ClassName))
             {
                 ClassName = string.Empty;
-                RPConfig.Save();
+                invalidSetting = true;
             }
             if (string.IsNullOrEmpty(MethodName))
             {
                 MethodName = string.Empty;
-                RPConfig.Save();
+                invalidSetting = true;
+            }
+            if (string.IsNullOrEmpty(AssemblyName))
+            {
+                AssemblyName = string.Empty;
+                invalidSetting = true;
             }
 
-            RPConfig.RequestAssembly("Assembly-CSharp.dll");
+            if (invalidSetting)
+            {
+                RPConfig.Save();
+                return;
+            }
+
+
+            RPConfig.RequestAssembly($"{AssemblyName}.dll");
             var path = Path.Combine(AssembliesDir, "UnityInjector.dll");
             if (!File.Exists(path))
             {
