@@ -22,8 +22,16 @@ namespace UnityInjector.ConsoleUtil
                 return;
             if (_oOut == IntPtr.Zero)
                 _oOut = GetStdHandle(-11);
+
+            // Store Current Window
+            IntPtr currWnd = GetForegroundWindow();
+
             if (!AllocConsole())
                 throw new Exception("AllocConsole() failed");
+
+            // Restore Foreground
+            SetForegroundWindow(currWnd);
+
             _cOut = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, 3, 0, IntPtr.Zero);
             if (!SetStdHandle(-11, _cOut))
                 throw new Exception("SetStdHandle() failed");
@@ -44,7 +52,15 @@ namespace UnityInjector.ConsoleUtil
                 throw new Exception("SetStdHandle() failed");
             Init();
             _attached = false;
+            
         }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool AllocConsole();
